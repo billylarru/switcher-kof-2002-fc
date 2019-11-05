@@ -59,14 +59,14 @@ app.on("ready", () => {
       label: 'Kof 2002 plus', 
       type: 'radio',
       click: () => {
-        selectROMPlus()
+        global.win.webContents.send('menu-plus')
       }
     },
     {
       label: 'Kof 2002 normal', 
       type: 'radio',
       click: () => {
-        selectROMNormal()
+        global.win.webContents.send('menu-normal')
       }
     },
     {
@@ -111,7 +111,7 @@ ipcMain.on('select-rom-plus', async (event, directory) => {
   try {
     await selectROMPlus(directory)
   } catch (error) {
-    event.sender.send('rom-selected', 'plus', error, null)
+    event.sender.send('rom-selected', 'plus', error.message, null)
   }
 })
 
@@ -134,7 +134,8 @@ async function selectROMNormal(){
 
     if(exists){
       const dst = path.join(directory, 'kof2002.zip')
-      shell.ln('-sf', src, dst)
+      const result = shell.ln('-sf', src, dst)
+      if(result.stderr) throw new Error(result.stderr)
     }else{
       //no existe
       throw new Error('No existe el archivo en: ' + src)
@@ -155,7 +156,8 @@ async function selectROMPlus(){
 
     if(exists){
       const dst = path.join(directory, 'kof2002.zip')
-      shell.ln('-sf', src, dst)
+      const result = shell.ln('-sf', src, dst)
+      if(result.stderr) throw new Error(result.stderr)
     }else{
       throw new Error('No existe el archivo en: ' + src)
     }

@@ -26,12 +26,25 @@ function setIpc(){
     if(!error){
       console.log('no hay error')
     }else{
+      if(error.includes('ln: EPERM')){
+        window.alert('Para poder cambiar el ROM este programa tiene que ser ejecutado como administrador')
+        return
+      }
+
       if(version === 'normal'){
         window.alert('Debe crear una carpeta con el nombre kof2002 dentro de la carpeta ROMs\n\n Luego dentro de kof2002 colocar la rom de la normal con el nombre kof2002normal.zip')
       }else if(version === 'plus'){
         window.alert('Debe crear una carpeta con el nombre kof2002 dentro de la carpeta ROMs\n\n Luego dentro de kof2002 colocar la rom de la plus con el nombre kof2002plus.zip')
       }
     }
+  })
+
+  ipcRenderer.on('menu-normal', (event) => {
+    selectROMNormal()
+  })
+
+  ipcRenderer.on('menu-plus', (event) => {
+    selectROMPlus()
   })
 }
 
