@@ -1,0 +1,12 @@
+.contenedor-botones{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-around;
+  /* background: red; */
+}
+
+.boton{
+  height: 50%;
+  margin: 10px;
+}
