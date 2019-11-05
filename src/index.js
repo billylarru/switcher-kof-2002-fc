@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.on("before-quit", () => {
-  console.log("saliendo");
+  app.quitting = true
 });
 
 app.on("ready", () => {
@@ -37,8 +37,12 @@ app.on("ready", () => {
   });
 
   global.win.on('close', (event) => {
-    event.preventDefault()
-    global.win.hide()
+    if(app.quitting){
+      global.win = null
+    }else{
+      event.preventDefault()
+      global.win.hide()
+    }
   })
 
   global.win.on("closed", () => {
@@ -66,10 +70,17 @@ app.on("ready", () => {
       }
     },
     {
+      label: 'Mostrar ventana', 
+      type: 'radio',
+      click: () => {
+        global.win.show()
+      }
+    },
+    {
       label: 'Salir', 
       type: 'radio',
       click: () => {
-        global.win = null;
+        //global.win = null;
         app.quit();
       }
     },
@@ -77,6 +88,9 @@ app.on("ready", () => {
   global.tray = new Tray(icon)
   global.tray.setToolTip('Switcher KOF 2002')
   global.tray.setContextMenu(contextMenu)
+  global.tray.on('click', () => {
+    global.win.isVisible() ? global.win.hide() : global.win.show()
+  })
 });
 
 ipcMain.on('open-directory', async (event) => {
