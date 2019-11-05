@@ -1,7 +1,7 @@
 {
   "name": "switcher-kof-2002-fc",
   "version": "1.0.0",
-  "description": "",
+  "description": "Aplicacion para cambiar de rom de kof2002",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -49,10 +49,6 @@
         },
         {
           "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
           "config": {}
         }
       ]
