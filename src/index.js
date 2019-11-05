@@ -5,6 +5,8 @@ const path = require('path')
 const shell = require('shelljs');
 const settings = require('electron-settings')
 
+if (require('electron-squirrel-startup')) return app.quit();
+
 global.win;
 global.tray;
 
